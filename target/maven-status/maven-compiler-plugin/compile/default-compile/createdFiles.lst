@@ -1,0 +1,8 @@
+pages\supplier\SupplierPage.class
+constants\Constant$Urls.class
+constants\Constant.class
+pages\home\HomePage.class
+common\CommonActions.class
+pages\search\SearchPage.class
+common\Config.class
+constants\Constant$TimeoutVariable.class

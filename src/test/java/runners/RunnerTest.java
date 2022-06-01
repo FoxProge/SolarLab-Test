@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "src/test/features",
-        glue = "src/test/java/tests/test_task1/stepDefinitions",
+        glue = "tests.test_task_1.stepDefinitions",
         tags = "@all",
         dryRun = false
 )

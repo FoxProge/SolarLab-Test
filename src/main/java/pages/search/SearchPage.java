@@ -1,5 +1,8 @@
 package pages.search;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,11 +10,10 @@ import org.openqa.selenium.WebElement;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class SearchPage {
     protected WebDriver driver;
-    Logger log = Logger.getLogger(SearchPage.class.getName());
+    Logger log = LogManager.getLogger(SearchPage.class);
 
     public SearchPage(WebDriver driver){
         this.driver = driver;
@@ -66,20 +68,24 @@ public class SearchPage {
     }
     public void saveDataToFile(){
         try (FileWriter writer = new FileWriter("Data.txt", false)){
-            List<WebElement> num_of_purchases = driver.findElements(By.xpath("//div[@itemprop='price']"));
-            List<WebElement> price_list = driver.findElements(By.xpath("//div[@class='card-item']"));
+
+            List<WebElement> num_of_purchases = driver.findElements(By.xpath("//div[@class='card-item']"));
+            List<WebElement> price_list = driver.findElements(By.xpath("//div[@itemprop='price']"));
 
             writer.write("Количество закупок: " + num_of_purchases.size() + "\n");
-            float sum = 0;
+            int sum = 0;
             for(int i = 0; i < price_list.size(); i++){
                 String price = price_list.get(i).getText();
                 writer.write("Товар №" + i + "; Цена: " + price + "\n");
                 System.out.println("Товар №" + i + "; Цена: " + price + "\n");
 
-                float num = Float.parseFloat(price);
+                int num = Integer.parseInt(
+                        price
+                                .substring(0, price.length()-5)
+                                .replaceAll(" ", ""));
                 sum+=num;
-                log.info("Общая сумма: " + sum);
             }
+            log.log(Level.INFO,"Общая сумма: " + String.valueOf(sum));
         }
         catch (IOException e) {
             System.out.println(e.getMessage());
